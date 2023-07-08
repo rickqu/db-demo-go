@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:15.3-alpine3.17
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+    volumes:
+      - disk:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  pgadmin4:
+    image: dpage/pgadmin4:latest
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=ricky@example.com
+      - PGADMIN_DEFAULT_PASSWORD=mysecretpassword
+    depends_on:
+      - postgres
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmindisk:/var/lib/pgadmin
+  goapi:
+    build: .
+    depends_on:
+      - postgres
+    ports:
+      - "19229:19229"
+volumes:
+  disk: {}
+  pgadmindisk: {}
+    
