@@ -1,7 +1,7 @@
 FROM golang:1.20.5-alpine3.17
 
 WORKDIR /app
-COPY goapi/* /app/
+COPY . /app/
 
 RUN go mod download
 RUN go build -o api api.go

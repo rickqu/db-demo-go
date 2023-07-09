@@ -1,12 +1,18 @@
 services:
   postgres:
-    image: postgres:15.3-alpine3.17
+    build: postgres/
+    image: postgresdb:latest
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
     volumes:
-      - disk:/var/lib/postgresql/data
+      - dbdisk:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   pgadmin4:
     image: dpage/pgadmin4:latest
     environment:
@@ -19,12 +25,14 @@ services:
     volumes:
       - pgadmindisk:/var/lib/pgadmin
   goapi:
-    build: .
+    build: goapi/
+    image: goapi:latest
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     ports:
       - "19229:19229"
 volumes:
-  disk: {}
+  dbdisk: {}
   pgadmindisk: {}
     
