@@ -32,6 +32,11 @@ services:
         condition: service_healthy
     ports:
       - "19229:19229"
+  integtest:
+    build: integtest/
+    image: integtest:latest
+    depends_on:
+      - goapi
 volumes:
   dbdisk: {}
   pgadmindisk: {}
