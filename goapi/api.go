@@ -43,7 +43,7 @@ func versionHandler(respWriter http.ResponseWriter, req *http.Request) {
 }
 
 func getAllPetsHandler(respWriter http.ResponseWriter, req *http.Request) {
-	rows, err := db.Query(`SELECT a.id, a.name, b.animal FROM animals a JOIN animaltype b on a.animaltype = b.id`)
+	rows, err := db.Query(`SELECT a.id, a.name, b.animal, a.other ->> 'personality' as personality FROM animals a JOIN animaltype b on a.animaltype = b.id`)
 	if err != nil {
 		respWriter.WriteHeader(http.StatusInternalServerError)
 	}
@@ -52,13 +52,14 @@ func getAllPetsHandler(respWriter http.ResponseWriter, req *http.Request) {
 		var id string
 		var name string
 		var animal string
+		var personality string
 
-		err = rows.Scan(&id, &name, &animal)
+		err = rows.Scan(&id, &name, &animal, &personality)
 		if err != nil {
 			respWriter.WriteHeader(http.StatusInternalServerError)
 		}
 
 		respWriter.WriteHeader(http.StatusOK)
-		respWriter.Write([]byte(id + " " + " " + name + " " + animal))
+		respWriter.Write([]byte(id + " " + name + " " + animal + " " + personality))
 	}
 }

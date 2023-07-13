@@ -70,5 +70,5 @@ INSERT INTO animalshelter.public.animals VALUES
     'Vincent',
     0, 
     2012, 
-    null
+    '{"personality": "Loves everyone, basically a dog", "catType": "ginger"}'
 );

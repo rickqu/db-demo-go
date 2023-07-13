@@ -4,6 +4,6 @@
 - `go mod tidy`
 
 # Useful commands
-- `docker-compose -f postgres.yml up -d --build <service>`
-- `docker-compose -f postgres.yml stop <service>`
+- `docker-compose -f postgres.yml up -d --build [service]`
+- `docker-compose -f postgres.yml stop [service]`
 - `docker-compose -f postgres.yml down`
